@@ -538,7 +538,7 @@
     padding: 1rem;
     text-align: center;
   }
-  .stat-val {
+  .stats-val {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 2rem;
     color: var(--gold);
@@ -595,11 +595,11 @@
 <div id="tab-fixture" class="tab-content active">
   <div class="section-title">🏟 Fixture Completo</div>
   <div class="stats-bar">
-    <div class="stat-card"><div class="stat-val" id="stat-total">0</div><div class="stat-lbl">Partidos</div></div>
-    <div class="stat-card"><div class="stat-val" id="stat-played">0</div><div class="stat-lbl">Jugados</div></div>
-    <div class="stat-card"><div class="stat-val" id="stat-pending">0</div><div class="stat-lbl">Pendientes</div></div>
-    <div class="stat-card"><div class="stat-val" id="stat-countries">29</div><div class="stat-lbl">Países</div></div>
-    <div class="stat-card"><div class="stat-val" id="stat-asesores">58</div><div class="stat-lbl">Asesores</div></div>
+    <div class="stat-card"><div class="stats-val" id="stat-total">0</div><div class="stat-lbl">Partidos</div></div>
+    <div class="stat-card"><div class="stats-val" id="stat-played">0</div><div class="stat-lbl">Jugados</div></div>
+    <div class="stat-card"><div class="stats-val" id="stat-pending">0</div><div class="stat-lbl">Pendientes</div></div>
+    <div class="stat-card"><div class="stats-val" id="stat-countries">29</div><div class="stat-lbl">Países</div></div>
+    <div class="stat-card"><div class="stats-val" id="stat-asesores">58</div><div class="stat-lbl">Asesores</div></div>
   </div>
   <div id="fixture-container"></div>
 </div>
@@ -708,7 +708,7 @@ const TEAMS = [
   {id:5,country:"Italia",flag:"it",players:["CAMPOS ECEQUIEL","CARBALLO FUMARI MARIANELA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
   {id:6,country:"Portugal",flag:"pt",players:["CARRIZO ROCIO ANABEL","CASTELLUCCIO LUCIANO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
   {id:7,country:"Países Bajos",flag:"nl",players:["CASTILLO LUANA","CEJAS NAHUEL"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:8,country:"Inglaterra",flag:"gb-eng",players:["CORTEZ CAMILA","DENAMI DE LA FUENTE TIAGO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:8,country:"Inglaterra",flag:"gb",players:["CORTEZ CAMILA","DENAMI DE LA FUENTE TIAGO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
   {id:9,country:"Bélgica",flag:"be",players:["FALZETTI CANDELA","FESTA ALDANA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
   {id:10,country:"Uruguay",flag:"uy",players:["FLORES RUTH MARIANELA","GONZALEZ MONTOYA MAITENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
   {id:11,country:"Colombia",flag:"co",players:["GUDIÑO HECTOR YAMIL","GUDIÑO MICAELA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
@@ -752,7 +752,7 @@ function fmtDate(d) { return d.toLocaleDateString('es-AR',{day:'2-digit',month:'
 function flagImg(code, size) {
   size = size || 32;
   if (!code || code.length > 6) return '🏳';
-  return '<img src="https://flagcdn.com/w' + size + '/' + code + '.png" width="' + size + '" style="border-radius:3px;vertical-align:middle" onerror="this.style.display='none'">';
+  return '<img src="https://flagcdn.com/w' + size + '/' + code + '.png" width="' + size + '" style="border-radius:3px;vertical-align:middle" onerror="this.style.display=\'none\'">';
 }
 
 // Advance date by N working days skipping Sundays
@@ -1001,8 +1001,6 @@ function renderMatchCard(m) {
   const isLive = !hasResult && today >= ds && today <= de && m.teamA >= 0;
   const cardClass = hasResult ? 'has-result' : (isLive ? 'live' : '');
 
-  const nameA = tA ? `${tA.flag} ${tA.country}` : '❓ Por definir';
-  const nameB = tB ? `${tB.flag} ${tB.country}` : '❓ Por definir';
   const p1A = tA ? tA.players[0].split(' ').slice(0,2).join(' ') : '—';
   const p2A = tA ? tA.players[1].split(' ').slice(0,2).join(' ') : '—';
   const p1B = tB ? tB.players[0].split(' ').slice(0,2).join(' ') : '—';
@@ -1013,9 +1011,6 @@ function renderMatchCard(m) {
 
   const avgA = m.avgA !== null ? m.avgA+'%' : '—';
   const avgB = m.avgB !== null ? m.avgB+'%' : '—';
-
-  const scoreA = m.avgA !== null ? m.avgA : '—';
-  const scoreB = m.avgB !== null ? m.avgB : '—';
 
   const canEdit = m.teamA >= 0 && m.teamB >= 0;
 
@@ -1183,6 +1178,7 @@ function renderStandings() {
   body.innerHTML = html;
 }
 
+// Ojo con los quotes escapados dentro de las llamadas en línea en este return HTML:
 function renderTeams() {
   const container = document.getElementById('teams-container');
   let html = '';
