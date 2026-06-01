@@ -7,6 +7,8 @@
 <meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mundial Quest 2026</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -188,7 +190,7 @@
     gap: 0.2rem;
   }
   .team.right { text-align: right; align-items: flex-end; }
-  .team-flag { font-size: 1.6rem; line-height: 1; }
+  .team-flag { line-height: 1; display:flex; align-items:center; }
   .team-name { font-size: 0.75rem; font-weight: 600; color: var(--text); line-height: 1.2; }
   .team-players { font-size: 0.62rem; color: var(--muted); }
   .team-ratio { font-size: 1rem; font-weight: 700; color: var(--gold); }
@@ -698,35 +700,35 @@
 const ASESORES = ["ACOSTA MAGALI","AMAYA MONASTERIO MIA","ARAOZ MARTIN","BALAZSY SOFIA","BAZAN GIULIANO","BORDA MALENA","BUFFA MARTICORENA RAIMUNDO","BUSTOS CAMAÑO JUAN IGNACIO","CACERES MARTINA","CALDERON BENAVIDEZ TIAGO","CAMPOS ECEQUIEL","CARBALLO FUMARI MARIANELA","CARRIZO ROCIO ANABEL","CASTELLUCCIO LUCIANO","CASTILLO LUANA","CEJAS NAHUEL","CORTEZ CAMILA","DENAMI DE LA FUENTE TIAGO","FALZETTI CANDELA","FESTA ALDANA","FLORES RUTH MARIANELA","GONZALEZ MONTOYA MAITENA","GUDIÑO HECTOR YAMIL","GUDIÑO MICAELA","GUDIÑO RAMALLO JAVIER ALEJANDRO","GUTIERREZ SELENA","HOFFMANN IVO","HURRICHE MILAGROS","ILLANES POBLET GABRIEL","LEDESMA MILAGROS AGUSTINA","LESCANO JAIME MARÍA EUGENIA","LOPEZ MAXIMILIANO","MACCIO GIULIANA","MANGOS MAXIMILIANO JORGE","MARCH LUCAS EZEQUIEL","MARINELLI MARCELO ELIAS","MOLINA ROCÍO","MORALES CAROLINA","NIEVA NADIA ESTEFANIA","NIEVAS JIMENA DEL CARMEN","OLMEDO BRITOS MARÍA SELENE","OLMOS JUAN PEDRO","PALAVECINO TIZIANO","PASETTI GISELA LORENA","QUEVEDO JOHANA JANET","REYNOSO ROMINA","RODRIGUEZ CECILIA MICAELA","RODRIGUEZ MARIA BELEN","SALA CARLA MILENA","SPERANDINI LENCINA SELENE","SPERTINO EXEQUIEL","SUAREZ FULGENZI ZOE ALEJANDRA","TOLOSA LESLIE","TRILA ALINA","TROSCH VALENTIN","VACOU SIBEN CONSTANZA","VERA MARTINA PILAR","ZAMUDIO MARINES","ZUMAETA ESTHER"];
 
 const TEAMS = [
-  {id:0,country:"Argentina",flag:"🇦🇷",players:["ACOSTA MAGALI","AMAYA MONASTERIO MIA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:1,country:"Brasil",flag:"🇧🇷",players:["ARAOZ MARTIN","BALAZSY SOFIA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:2,country:"Francia",flag:"🇫🇷",players:["BAZAN GIULIANO","BORDA MALENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:3,country:"Alemania",flag:"🇩🇪",players:["BUFFA MARTICORENA RAIMUNDO","BUSTOS CAMAÑO JUAN IGNACIO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:4,country:"España",flag:"🇪🇸",players:["CACERES MARTINA","CALDERON BENAVIDEZ TIAGO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:5,country:"Italia",flag:"🇮🇹",players:["CAMPOS ECEQUIEL","CARBALLO FUMARI MARIANELA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:6,country:"Portugal",flag:"🇵🇹",players:["CARRIZO ROCIO ANABEL","CASTELLUCCIO LUCIANO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:7,country:"Países Bajos",flag:"🇳🇱",players:["CASTILLO LUANA","CEJAS NAHUEL"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:8,country:"Inglaterra",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",players:["CORTEZ CAMILA","DENAMI DE LA FUENTE TIAGO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:9,country:"Bélgica",flag:"🇧🇪",players:["FALZETTI CANDELA","FESTA ALDANA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:10,country:"Uruguay",flag:"🇺🇾",players:["FLORES RUTH MARIANELA","GONZALEZ MONTOYA MAITENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:11,country:"Colombia",flag:"🇨🇴",players:["GUDIÑO HECTOR YAMIL","GUDIÑO MICAELA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:12,country:"México",flag:"🇲🇽",players:["GUDIÑO RAMALLO JAVIER ALEJANDRO","GUTIERREZ SELENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:13,country:"Japón",flag:"🇯🇵",players:["HOFFMANN IVO","HURRICHE MILAGROS"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:14,country:"Corea del Sur",flag:"🇰🇷",players:["ILLANES POBLET GABRIEL","LEDESMA MILAGROS AGUSTINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:15,country:"Marruecos",flag:"🇲🇦",players:["LESCANO JAIME MARÍA EUGENIA","LOPEZ MAXIMILIANO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:16,country:"Senegal",flag:"🇸🇳",players:["MACCIO GIULIANA","MANGOS MAXIMILIANO JORGE"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:17,country:"Ghana",flag:"🇬🇭",players:["MARCH LUCAS EZEQUIEL","MARINELLI MARCELO ELIAS"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:18,country:"Australia",flag:"🇦🇺",players:["MOLINA ROCÍO","MORALES CAROLINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:19,country:"Suiza",flag:"🇨🇭",players:["NIEVA NADIA ESTEFANIA","NIEVAS JIMENA DEL CARMEN"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:20,country:"Croacia",flag:"🇭🇷",players:["OLMEDO BRITOS MARÍA SELENE","OLMOS JUAN PEDRO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:21,country:"Dinamarca",flag:"🇩🇰",players:["PALAVECINO TIZIANO","PASETTI GISELA LORENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:22,country:"Polonia",flag:"🇵🇱",players:["QUEVEDO JOHANA JANET","REYNOSO ROMINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:23,country:"Suecia",flag:"🇸🇪",players:["RODRIGUEZ CECILIA MICAELA","RODRIGUEZ MARIA BELEN"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:24,country:"Serbia",flag:"🇷🇸",players:["SALA CARLA MILENA","SPERANDINI LENCINA SELENE"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:25,country:"Ecuador",flag:"🇪🇨",players:["SPERTINO EXEQUIEL","SUAREZ FULGENZI ZOE ALEJANDRA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:26,country:"Perú",flag:"🇵🇪",players:["TOLOSA LESLIE","TRILA ALINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:27,country:"Chile",flag:"🇨🇱",players:["TROSCH VALENTIN","VACOU SIBEN CONSTANZA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
-  {id:28,country:"Paraguay",flag:"🇵🇾",players:["VERA MARTINA PILAR","ZAMUDIO MARINES"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
+  {id:0,country:"Argentina",flag:"ar",players:["ACOSTA MAGALI","AMAYA MONASTERIO MIA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:1,country:"Brasil",flag:"br",players:["ARAOZ MARTIN","BALAZSY SOFIA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:2,country:"Francia",flag:"fr",players:["BAZAN GIULIANO","BORDA MALENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:3,country:"Alemania",flag:"de",players:["BUFFA MARTICORENA RAIMUNDO","BUSTOS CAMAÑO JUAN IGNACIO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:4,country:"España",flag:"es",players:["CACERES MARTINA","CALDERON BENAVIDEZ TIAGO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:5,country:"Italia",flag:"it",players:["CAMPOS ECEQUIEL","CARBALLO FUMARI MARIANELA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:6,country:"Portugal",flag:"pt",players:["CARRIZO ROCIO ANABEL","CASTELLUCCIO LUCIANO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:7,country:"Países Bajos",flag:"nl",players:["CASTILLO LUANA","CEJAS NAHUEL"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:8,country:"Inglaterra",flag:"gb-eng",players:["CORTEZ CAMILA","DENAMI DE LA FUENTE TIAGO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:9,country:"Bélgica",flag:"be",players:["FALZETTI CANDELA","FESTA ALDANA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:10,country:"Uruguay",flag:"uy",players:["FLORES RUTH MARIANELA","GONZALEZ MONTOYA MAITENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:11,country:"Colombia",flag:"co",players:["GUDIÑO HECTOR YAMIL","GUDIÑO MICAELA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:12,country:"México",flag:"mx",players:["GUDIÑO RAMALLO JAVIER ALEJANDRO","GUTIERREZ SELENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:13,country:"Japón",flag:"jp",players:["HOFFMANN IVO","HURRICHE MILAGROS"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:14,country:"Corea del Sur",flag:"kr",players:["ILLANES POBLET GABRIEL","LEDESMA MILAGROS AGUSTINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:15,country:"Marruecos",flag:"ma",players:["LESCANO JAIME MARÍA EUGENIA","LOPEZ MAXIMILIANO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:16,country:"Senegal",flag:"sn",players:["MACCIO GIULIANA","MANGOS MAXIMILIANO JORGE"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:17,country:"Ghana",flag:"gh",players:["MARCH LUCAS EZEQUIEL","MARINELLI MARCELO ELIAS"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:18,country:"Australia",flag:"au",players:["MOLINA ROCÍO","MORALES CAROLINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:19,country:"Suiza",flag:"ch",players:["NIEVA NADIA ESTEFANIA","NIEVAS JIMENA DEL CARMEN"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:20,country:"Croacia",flag:"hr",players:["OLMEDO BRITOS MARÍA SELENE","OLMOS JUAN PEDRO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:21,country:"Dinamarca",flag:"dk",players:["PALAVECINO TIZIANO","PASETTI GISELA LORENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:22,country:"Polonia",flag:"pl",players:["QUEVEDO JOHANA JANET","REYNOSO ROMINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:23,country:"Suecia",flag:"se",players:["RODRIGUEZ CECILIA MICAELA","RODRIGUEZ MARIA BELEN"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:24,country:"Serbia",flag:"rs",players:["SALA CARLA MILENA","SPERANDINI LENCINA SELENE"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:25,country:"Ecuador",flag:"ec",players:["SPERTINO EXEQUIEL","SUAREZ FULGENZI ZOE ALEJANDRA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:26,country:"Perú",flag:"pe",players:["TOLOSA LESLIE","TRILA ALINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:27,country:"Chile",flag:"cl",players:["TROSCH VALENTIN","VACOU SIBEN CONSTANZA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:28,country:"Paraguay",flag:"py",players:["VERA MARTINA PILAR","ZAMUDIO MARINES"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
 ];
 // Suplente: ZUMAETA ESTHER
 
@@ -747,6 +749,11 @@ const START = new Date('2026-06-08');
 
 function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate()+n); return r; }
 function fmtDate(d) { return d.toLocaleDateString('es-AR',{day:'2-digit',month:'short',year:'numeric'}); }
+function flagImg(code, size) {
+  size = size || 32;
+  if (!code || code.length > 6) return '🏳';
+  return '<img src="https://flagcdn.com/w' + size + '/' + code + '.png" width="' + size + '" style="border-radius:3px;vertical-align:middle" onerror="this.style.display='none'">';
+}
 
 // Advance date by N working days skipping Sundays
 function addWorkDays(d, n) {
@@ -877,25 +884,12 @@ let state = {
 };
 let editingMatchId = null;
 
-// Try to load from localStorage
-try {
-  const saved = localStorage.getItem('mundial_quest_2026_v2');
-  if (saved) {
-    const parsed = JSON.parse(saved);
-    // Only restore match results/ratios if match count matches (prevents stale data)
-    if (parsed.matches && parsed.matches.length === state.matches.length) {
-      // Merge only result fields, keep fresh date/team structure
-      parsed.matches.forEach((pm, i) => {
-        state.matches[i].ratioA = pm.ratioA;
-        state.matches[i].ratioB = pm.ratioB;
-        state.matches[i].avgA = pm.avgA;
-        state.matches[i].avgB = pm.avgB;
-        state.matches[i].winner = pm.winner;
-      });
-    }
-    state.news = parsed.news || [];
-  }
-} catch(e) {}
+// ===== FIREBASE =====
+const firebaseConfig = {
+  databaseURL: "https://mundial-quest-default-rtdb.firebaseio.com/"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
 // Restore admin session (valid for 8 hours)
 try {
@@ -906,16 +900,40 @@ try {
 } catch(e) {}
 
 function saveState() {
-  try {
-    const toSave = {
-      matches: state.matches.map(m => ({
-        id: m.id, ratioA: m.ratioA, ratioB: m.ratioB,
-        avgA: m.avgA, avgB: m.avgB, winner: m.winner
-      })),
-      news: state.news
-    };
-    localStorage.setItem('mundial_quest_2026_v2', JSON.stringify(toSave));
-  } catch(e) {}
+  const toSave = {
+    matches: state.matches.map(m => ({
+      id: m.id,
+      ratioA: m.ratioA !== null ? m.ratioA : null,
+      ratioB: m.ratioB !== null ? m.ratioB : null,
+      avgA: m.avgA !== null ? m.avgA : null,
+      avgB: m.avgB !== null ? m.avgB : null,
+      winner: m.winner !== null ? m.winner : null
+    })),
+    news: state.news
+  };
+  db.ref('mundial2026').set(toSave);
+}
+
+// Load from Firebase and listen for real-time changes
+function initFirebase() {
+  db.ref('mundial2026').on('value', (snapshot) => {
+    const saved = snapshot.val();
+    if (saved) {
+      if (saved.matches && saved.matches.length === state.matches.length) {
+        saved.matches.forEach((pm, i) => {
+          if (!pm) return;
+          state.matches[i].ratioA = pm.ratioA !== undefined ? pm.ratioA : null;
+          state.matches[i].ratioB = pm.ratioB !== undefined ? pm.ratioB : null;
+          state.matches[i].avgA = pm.avgA !== undefined ? pm.avgA : null;
+          state.matches[i].avgB = pm.avgB !== undefined ? pm.avgB : null;
+          state.matches[i].winner = pm.winner !== undefined ? pm.winner : null;
+        });
+      }
+      state.news = saved.news ? Object.values(saved.news) : [];
+    }
+    renderAll();
+    updateAdminUI();
+  });
 }
 
 // ===== HELPERS =====
@@ -1009,7 +1027,7 @@ function renderMatchCard(m) {
     </div>
     <div class="match-teams">
       <div class="team ${winA?'winner':''}">
-        <div class="team-flag">${tA?tA.flag:'❓'}</div>
+        <div class="team-flag">${tA?flagImg(tA.flag,40):'❓'}</div>
         <div class="team-name">${tA?tA.country:'Por definir'}</div>
         <div class="team-players">${p1A}<br>${p2A}</div>
         <div class="team-ratio">${avgA}</div>
@@ -1020,7 +1038,7 @@ function renderMatchCard(m) {
         <div class="score-label">${hasResult?'RATIO PROM.':'PENDIENTE'}</div>
       </div>
       <div class="team right ${winB?'winner':''}">
-        <div class="team-flag">${tB?tB.flag:'❓'}</div>
+        <div class="team-flag">${tB?flagImg(tB.flag,40):'❓'}</div>
         <div class="team-name">${tB?tB.country:'Por definir'}</div>
         <div class="team-players">${p1B}<br>${p2B}</div>
         <div class="team-ratio">${avgB}</div>
@@ -1076,7 +1094,7 @@ function renderGroups() {
     teamStandings.forEach((s,i)=>{
       const qual = i < 2;
       html += `<tr class="${qual?'qualified':''}">
-        <td><div class="country-cell"><span>${s.t.flag}</span><span>${s.t.country}</span></div></td>
+        <td><div class="country-cell"><span>${flagImg(s.t.flag,24)}</span><span>${s.t.country}</span></div></td>
         <td>${s.gp}</td>
         <td class="pts-cell">${s.pts}</td>
         <td class="ratio-cell">${s.avgRatio!==null?s.avgRatio+'%':'—'}</td>
@@ -1108,12 +1126,12 @@ function renderBracket() {
 
       html += `<div class="bracket-match">
         <div class="bracket-team ${winA?'winner':''}">
-          <span class="flag">${tA?tA.flag:'❓'}</span>
+          <span class="flag">${tA?flagImg(tA.flag,24):'❓'}</span>
           <span class="name">${tA?tA.country:'POR DEFINIR'}</span>
           <span class="score">${m.avgA!==null?m.avgA:'-'}</span>
         </div>
         <div class="bracket-team ${winB?'winner':''}">
-          <span class="flag">${tB?tB.flag:'❓'}</span>
+          <span class="flag">${tB?flagImg(tB.flag,24):'❓'}</span>
           <span class="name">${tB?tB.country:'POR DEFINIR'}</span>
           <span class="score">${m.avgB!==null?m.avgB:'-'}</span>
         </div>
@@ -1153,7 +1171,7 @@ function renderStandings() {
     const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
     html += `<tr class="${i===0?'champion':''}">
       <td class="rank-num" style="color:var(--gold)">${medal||i+1}</td>
-      <td><span style="margin-right:6px">${t.flag}</span>${t.country}</td>
+      <td><span style="margin-right:6px">${flagImg(t.flag,24)}</span>${t.country}</td>
       <td style="text-align:center">${t.gp}</td>
       <td style="text-align:center;color:#a8e6ff">${t.gw}</td>
       <td style="text-align:center;color:#ff8888">${t.gl}</td>
@@ -1171,7 +1189,7 @@ function renderTeams() {
   for (const t of state.teams) {
     html += `<div class="match-card" style="cursor:default">
       <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem">
-        <div style="font-size:2.5rem">${t.flag}</div>
+        <div>${flagImg(t.flag,48)}</div>
         <div>
           <div style="font-weight:700;font-size:1rem">${t.country}</div>
           <div style="font-size:0.65rem;color:var(--muted);letter-spacing:1px">SELECCIÓN</div>
@@ -1221,7 +1239,7 @@ function openModal(matchId) {
   const tA = state.teams[m.teamA];
   const tB = state.teams[m.teamB];
 
-  document.getElementById('modal-title').textContent = `${tA.flag} ${tA.country} vs ${tB.flag} ${tB.country}`;
+  document.getElementById('modal-title').textContent = `${tA.country} vs ${tB.country}`;
 
   let html = '';
   // Team A players
@@ -1308,11 +1326,12 @@ function addNews() {
   state.news.push({title, body, cat, date});
   document.getElementById('news-title-input').value='';
   document.getElementById('news-body-input').value='';
-  saveState();
+  // Save news separately to Firebase
+  db.ref('mundial2026/news').set(state.news);
   renderNews();
 }
 function deleteNews(i) {
-  if(confirm('¿Eliminar esta noticia?')){state.news.splice(i,1);saveState();renderNews();}
+  if(confirm('¿Eliminar esta noticia?')){state.news.splice(i,1);db.ref('mundial2026/news').set(state.news);renderNews();}
 }
 
 // ===== TABS =====
@@ -1347,7 +1366,7 @@ document.getElementById('news-date-input').value = new Date().toISOString().spli
 
 // INIT
 updateAdminUI();
-renderFixture();
+initFirebase(); // loads from Firebase and renders
 </script>
 </body>
 </html>
