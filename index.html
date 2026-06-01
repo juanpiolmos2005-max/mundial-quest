@@ -2,6 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mundial Quest 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -695,34 +698,34 @@
 const ASESORES = ["ACOSTA MAGALI","AMAYA MONASTERIO MIA","ARAOZ MARTIN","BALAZSY SOFIA","BAZAN GIULIANO","BORDA MALENA","BUFFA MARTICORENA RAIMUNDO","BUSTOS CAMAÑO JUAN IGNACIO","CACERES MARTINA","CALDERON BENAVIDEZ TIAGO","CAMPOS ECEQUIEL","CARBALLO FUMARI MARIANELA","CARRIZO ROCIO ANABEL","CASTELLUCCIO LUCIANO","CASTILLO LUANA","CEJAS NAHUEL","CORTEZ CAMILA","DENAMI DE LA FUENTE TIAGO","FALZETTI CANDELA","FESTA ALDANA","FLORES RUTH MARIANELA","GONZALEZ MONTOYA MAITENA","GUDIÑO HECTOR YAMIL","GUDIÑO MICAELA","GUDIÑO RAMALLO JAVIER ALEJANDRO","GUTIERREZ SELENA","HOFFMANN IVO","HURRICHE MILAGROS","ILLANES POBLET GABRIEL","LEDESMA MILAGROS AGUSTINA","LESCANO JAIME MARÍA EUGENIA","LOPEZ MAXIMILIANO","MACCIO GIULIANA","MANGOS MAXIMILIANO JORGE","MARCH LUCAS EZEQUIEL","MARINELLI MARCELO ELIAS","MOLINA ROCÍO","MORALES CAROLINA","NIEVA NADIA ESTEFANIA","NIEVAS JIMENA DEL CARMEN","OLMEDO BRITOS MARÍA SELENE","OLMOS JUAN PEDRO","PALAVECINO TIZIANO","PASETTI GISELA LORENA","QUEVEDO JOHANA JANET","REYNOSO ROMINA","RODRIGUEZ CECILIA MICAELA","RODRIGUEZ MARIA BELEN","SALA CARLA MILENA","SPERANDINI LENCINA SELENE","SPERTINO EXEQUIEL","SUAREZ FULGENZI ZOE ALEJANDRA","TOLOSA LESLIE","TRILA ALINA","TROSCH VALENTIN","VACOU SIBEN CONSTANZA","VERA MARTINA PILAR","ZAMUDIO MARINES","ZUMAETA ESTHER"];
 
 const TEAMS = [
-  {id:0,country:"Argentina",flag:"🇦🇷",players:["ACOSTA MAGALI","AMAYA MONASTERIO MIA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:1,country:"Brasil",flag:"🇧🇷",players:["ARAOZ MARTIN","BALAZSY SOFIA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:2,country:"Francia",flag:"🇫🇷",players:["BAZAN GIULIANO","BORDA MALENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:3,country:"Alemania",flag:"🇩🇪",players:["BUFFA MARTICORENA RAIMUNDO","BUSTOS CAMAÑO JUAN IGNACIO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:4,country:"España",flag:"🇪🇸",players:["CACERES MARTINA","CALDERON BENAVIDEZ TIAGO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:5,country:"Italia",flag:"🇮🇹",players:["CAMPOS ECEQUIEL","CARBALLO FUMARI MARIANELA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:6,country:"Portugal",flag:"🇵🇹",players:["CARRIZO ROCIO ANABEL","CASTELLUCCIO LUCIANO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:7,country:"Países Bajos",flag:"🇳🇱",players:["CASTILLO LUANA","CEJAS NAHUEL"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:8,country:"Inglaterra",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",players:["CORTEZ CAMILA","DENAMI DE LA FUENTE TIAGO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:9,country:"Bélgica",flag:"🇧🇪",players:["FALZETTI CANDELA","FESTA ALDANA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:10,country:"Uruguay",flag:"🇺🇾",players:["FLORES RUTH MARIANELA","GONZALEZ MONTOYA MAITENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:11,country:"Colombia",flag:"🇨🇴",players:["GUDIÑO HECTOR YAMIL","GUDIÑO MICAELA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:12,country:"México",flag:"🇲🇽",players:["GUDIÑO RAMALLO JAVIER ALEJANDRO","GUTIERREZ SELENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:13,country:"Japón",flag:"🇯🇵",players:["HOFFMANN IVO","HURRICHE MILAGROS"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:14,country:"Corea del Sur",flag:"🇰🇷",players:["ILLANES POBLET GABRIEL","LEDESMA MILAGROS AGUSTINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:15,country:"Marruecos",flag:"🇲🇦",players:["LESCANO JAIME MARÍA EUGENIA","LOPEZ MAXIMILIANO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:16,country:"Senegal",flag:"🇸🇳",players:["MACCIO GIULIANA","MANGOS MAXIMILIANO JORGE"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:17,country:"Ghana",flag:"🇬🇭",players:["MARCH LUCAS EZEQUIEL","MARINELLI MARCELO ELIAS"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:18,country:"Australia",flag:"🇦🇺",players:["MOLINA ROCÍO","MORALES CAROLINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:19,country:"Suiza",flag:"🇨🇭",players:["NIEVA NADIA ESTEFANIA","NIEVAS JIMENA DEL CARMEN"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:20,country:"Croacia",flag:"🇭🇷",players:["OLMEDO BRITOS MARÍA SELENE","OLMOS JUAN PEDRO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:21,country:"Dinamarca",flag:"🇩🇰",players:["PALAVECINO TIZIANO","PASETTI GISELA LORENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:22,country:"Polonia",flag:"🇵🇱",players:["QUEVEDO JOHANA JANET","REYNOSO ROMINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:23,country:"Suecia",flag:"🇸🇪",players:["RODRIGUEZ CECILIA MICAELA","RODRIGUEZ MARIA BELEN"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:24,country:"Serbia",flag:"🇷🇸",players:["SALA CARLA MILENA","SPERANDINI LENCINA SELENE"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:25,country:"Ecuador",flag:"🇪🇨",players:["SPERTINO EXEQUIEL","SUAREZ FULGENZI ZOE ALEJANDRA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:26,country:"Perú",flag:"🇵🇪",players:["TOLOSA LESLIE","TRILA ALINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
-  {id:27,country:"Chile",flag:"🇨🇱",players:["TROSCH VALENTIN","VACOU SIBEN CONSTANZA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
+  {id:0,country:"Argentina",flag:"🇦🇷",players:["ACOSTA MAGALI","AMAYA MONASTERIO MIA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:1,country:"Brasil",flag:"🇧🇷",players:["ARAOZ MARTIN","BALAZSY SOFIA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:2,country:"Francia",flag:"🇫🇷",players:["BAZAN GIULIANO","BORDA MALENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:3,country:"Alemania",flag:"🇩🇪",players:["BUFFA MARTICORENA RAIMUNDO","BUSTOS CAMAÑO JUAN IGNACIO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:4,country:"España",flag:"🇪🇸",players:["CACERES MARTINA","CALDERON BENAVIDEZ TIAGO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:5,country:"Italia",flag:"🇮🇹",players:["CAMPOS ECEQUIEL","CARBALLO FUMARI MARIANELA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:6,country:"Portugal",flag:"🇵🇹",players:["CARRIZO ROCIO ANABEL","CASTELLUCCIO LUCIANO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:7,country:"Países Bajos",flag:"🇳🇱",players:["CASTILLO LUANA","CEJAS NAHUEL"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:8,country:"Inglaterra",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",players:["CORTEZ CAMILA","DENAMI DE LA FUENTE TIAGO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:9,country:"Bélgica",flag:"🇧🇪",players:["FALZETTI CANDELA","FESTA ALDANA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:10,country:"Uruguay",flag:"🇺🇾",players:["FLORES RUTH MARIANELA","GONZALEZ MONTOYA MAITENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:11,country:"Colombia",flag:"🇨🇴",players:["GUDIÑO HECTOR YAMIL","GUDIÑO MICAELA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:12,country:"México",flag:"🇲🇽",players:["GUDIÑO RAMALLO JAVIER ALEJANDRO","GUTIERREZ SELENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:13,country:"Japón",flag:"🇯🇵",players:["HOFFMANN IVO","HURRICHE MILAGROS"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:14,country:"Corea del Sur",flag:"🇰🇷",players:["ILLANES POBLET GABRIEL","LEDESMA MILAGROS AGUSTINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:15,country:"Marruecos",flag:"🇲🇦",players:["LESCANO JAIME MARÍA EUGENIA","LOPEZ MAXIMILIANO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:16,country:"Senegal",flag:"🇸🇳",players:["MACCIO GIULIANA","MANGOS MAXIMILIANO JORGE"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:17,country:"Ghana",flag:"🇬🇭",players:["MARCH LUCAS EZEQUIEL","MARINELLI MARCELO ELIAS"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:18,country:"Australia",flag:"🇦🇺",players:["MOLINA ROCÍO","MORALES CAROLINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:19,country:"Suiza",flag:"🇨🇭",players:["NIEVA NADIA ESTEFANIA","NIEVAS JIMENA DEL CARMEN"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:20,country:"Croacia",flag:"🇭🇷",players:["OLMEDO BRITOS MARÍA SELENE","OLMOS JUAN PEDRO"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:21,country:"Dinamarca",flag:"🇩🇰",players:["PALAVECINO TIZIANO","PASETTI GISELA LORENA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:22,country:"Polonia",flag:"🇵🇱",players:["QUEVEDO JOHANA JANET","REYNOSO ROMINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:23,country:"Suecia",flag:"🇸🇪",players:["RODRIGUEZ CECILIA MICAELA","RODRIGUEZ MARIA BELEN"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:24,country:"Serbia",flag:"🇷🇸",players:["SALA CARLA MILENA","SPERANDINI LENCINA SELENE"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:25,country:"Ecuador",flag:"🇪🇨",players:["SPERTINO EXEQUIEL","SUAREZ FULGENZI ZOE ALEJANDRA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:26,country:"Perú",flag:"🇵🇪",players:["TOLOSA LESLIE","TRILA ALINA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
+  {id:27,country:"Chile",flag:"🇨🇱",players:["TROSCH VALENTIN","VACOU SIBEN CONSTANZA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
   {id:28,country:"Paraguay",flag:"🇵🇾",players:["VERA MARTINA PILAR","ZAMUDIO MARINES"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
 ];
 // Suplente: ZUMAETA ESTHER
