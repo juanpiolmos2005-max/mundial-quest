@@ -879,8 +879,17 @@ try {
   const saved = localStorage.getItem('mundial_quest_2026_v2');
   if (saved) {
     const parsed = JSON.parse(saved);
-    state.matches = parsed.matches || state.matches;
-    state.teams = parsed.teams || state.teams;
+    // Only restore match results/ratios if match count matches (prevents stale data)
+    if (parsed.matches && parsed.matches.length === state.matches.length) {
+      // Merge only result fields, keep fresh date/team structure
+      parsed.matches.forEach((pm, i) => {
+        state.matches[i].ratioA = pm.ratioA;
+        state.matches[i].ratioB = pm.ratioB;
+        state.matches[i].avgA = pm.avgA;
+        state.matches[i].avgB = pm.avgB;
+        state.matches[i].winner = pm.winner;
+      });
+    }
     state.news = parsed.news || [];
   }
 } catch(e) {}
@@ -894,7 +903,16 @@ try {
 } catch(e) {}
 
 function saveState() {
-  try { localStorage.setItem('mundial_quest_2026_v2', JSON.stringify(state)); } catch(e) {}
+  try {
+    const toSave = {
+      matches: state.matches.map(m => ({
+        id: m.id, ratioA: m.ratioA, ratioB: m.ratioB,
+        avgA: m.avgA, avgB: m.avgB, winner: m.winner
+      })),
+      news: state.news
+    };
+    localStorage.setItem('mundial_quest_2026_v2', JSON.stringify(toSave));
+  } catch(e) {}
 }
 
 // ===== HELPERS =====
