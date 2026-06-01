@@ -40,7 +40,7 @@
   .banner::before {
     content: '';
     position: absolute; inset: 0;
-    background: repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(79,195,247,0.03) 60px, rgba(79,195,247,0.03) 61px);
+    background: repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(79,195,247,0.03) 60px, rgba(79,195,247,0.03) 1px);
     pointer-events: none;
   }
   .banner-title {
@@ -730,9 +730,7 @@ const TEAMS = [
   {id:27,country:"Chile",flag:"cl",players:["TROSCH VALENTIN","VACOU SIBEN CONSTANZA"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"},
   {id:28,country:"Paraguay",flag:"py",players:["VERA MARTINA PILAR","ZAMUDIO MARINES"],ratios:[null,null],pts:0,gp:0,gw:0,gl:0,avgRatio:null,phase:"Grupos"}
 ];
-// Suplente: ZUMAETA ESTHER
 
-// GROUPS: 8 groups (5×4 + 3×3 = 29 teams)
 const GROUPS = [
   {name:"Grupo A",teams:[0,1,2,3]},
   {name:"Grupo B",teams:[4,5,6,7]},
@@ -744,7 +742,6 @@ const GROUPS = [
   {name:"Grupo H",teams:[26,27,28]}
 ];
 
-// TOURNAMENT: starts Monday June 9, 2025. Matches last 2 days. No Sundays.
 const START = new Date('2026-06-08');
 
 function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate()+n); return r; }
@@ -755,23 +752,19 @@ function flagImg(code, size) {
   return '<img src="https://flagcdn.com/w' + size + '/' + code + '.png" width="' + size + '" style="border-radius:3px;vertical-align:middle" onerror="this.style.display=\'none\'">';
 }
 
-// Advance date by N working days skipping Sundays
 function addWorkDays(d, n) {
   const r = new Date(d);
   let added = 0;
   while (added < n) { r.setDate(r.getDate()+1); if (r.getDay()!==0) added++; }
   return r;
 }
-// If date is Sunday, move to Monday
 function noSunday(d) { const r=new Date(d); if(r.getDay()===0) r.setDate(r.getDate()+1); return r; }
 
-// cursor tracks next available start day
-let cursor = new Date(START); // Jun 9 Mon
+let cursor = new Date(START);
 
 function nextRoundDates() {
   const s = noSunday(new Date(cursor));
-  const e = addWorkDays(s, 1); // end = 1 working day after start
-  // advance cursor to next working day after end
+  const e = addWorkDays(s, 1);
   cursor = addWorkDays(e, 1);
   if (cursor.getDay()===0) cursor.setDate(cursor.getDate()+1);
   return [s, e];
@@ -780,8 +773,6 @@ function nextRoundDates() {
 const MATCHES = [];
 let mid = 0;
 
-// For size-4 groups: 3 jornadas, pairs [[0,1],[2,3]], [[0,2],[1,3]], [[0,3],[1,2]]
-// For size-3 groups: 3 jornadas, pairs [[0,1]], [[1,2]], [[0,2]]
 const groupRounds4 = [ [[0,1],[2,3]], [[0,2],[1,3]], [[0,3],[1,2]] ];
 const groupRounds3 = [ [[0,1]], [[1,2]], [[0,2]] ];
 
@@ -805,7 +796,7 @@ for (let round = 0; round < 3; round++) {
         ratioA: null, ratioB: null,
         avgA: null, avgB: null,
         winner: null,
-        dateStart: d1, dateEnd: d2
+        dateStart: d1.toISOString(), dateEnd: d2.toISOString()
       });
     }
   }
@@ -819,7 +810,7 @@ function addKOMatch(phase, dateStart, dateEnd, slot) {
     ratioA: null, ratioB: null,
     avgA: null, avgB: null,
     winner: null,
-    dateStart, dateEnd,
+    dateStart: dateStart.toISOString(), dateEnd: dateEnd.toISOString(),
     slot
   });
 }
@@ -829,8 +820,6 @@ const [koQs,koQe]   = nextRoundDates();
 const [koSs,koSe]   = nextRoundDates();
 const [koFs,koFe]   = nextRoundDates();
 
-// 12 grupos: 1ro de cada grupo (12) + 4 mejores 2dos = 16 equipos en octavos
-// Octavos: 8 partidos → Cuartos: 4 → Semis: 2 → Final: 1
 for (let i=0;i<8;i++)  addKOMatch('Octavos',   ko8s, ko8e, i);
 for (let i=0;i<4;i++)  addKOMatch('Cuartos',   koQs, koQe, i);
 for (let i=0;i<2;i++)  addKOMatch('Semifinal', koSs, koSe, i);
@@ -841,9 +830,7 @@ addKOMatch('3er Puesto', koFs, koFe, 0);
 const ADMIN_PASSWORD = 'quest2026';
 let isAdmin = false;
 
-function checkAdmin() {
-  return isAdmin;
-}
+function checkAdmin() { return isAdmin; }
 function promptAdmin() {
   const pw = prompt('Contraseña de administrador:');
   if (pw === ADMIN_PASSWORD) {
@@ -867,18 +854,15 @@ function updateAdminUI() {
   const logoutBtn = document.getElementById('logout-btn');
   if (btn) btn.textContent = isAdmin ? '🔓 Admin activo' : '🔒 Admin';
   if (logoutBtn) logoutBtn.style.display = isAdmin ? 'inline-block' : 'none';
-  // Show/hide news form and edit buttons
   document.querySelectorAll('.admin-only').forEach(el => {
     el.style.display = isAdmin ? '' : 'none';
   });
 }
-function toggleAdmin() {
-  if (isAdmin) { logoutAdmin(); } else { promptAdmin(); }
-}
+function toggleAdmin() { if (isAdmin) { logoutAdmin(); } else { promptAdmin(); } }
 
 // ==== STATE ====
 let state = {
-  matches: MATCHES.map(m => ({...m, ratioA: m.ratioA, ratioB: m.ratioB, avgA: null, avgB: null, winner: null})),
+  matches: MATCHES.map(m => ({...m})),
   teams: TEAMS.map(t => ({...t})),
   news: []
 };
@@ -891,7 +875,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Restore admin session (valid for 8 hours)
 try {
   const session = localStorage.getItem('mq_admin_session_v2');
   if (session && (Date.now() - parseInt(session)) < 8 * 3600 * 1000) {
@@ -903,34 +886,41 @@ function saveState() {
   const toSave = {
     matches: state.matches.map(m => ({
       id: m.id,
-      ratioA: m.ratioA !== null ? m.ratioA : null,
-      ratioB: m.ratioB !== null ? m.ratioB : null,
-      avgA: m.avgA !== null ? m.avgA : null,
-      avgB: m.avgB !== null ? m.avgB : null,
-      winner: m.winner !== null ? m.winner : null
+      ratioA: m.ratioA !== undefined ? m.ratioA : null,
+      ratioB: m.ratioB !== undefined ? m.ratioB : null,
+      avgA: m.avgA !== undefined ? m.avgA : null,
+      avgB: m.avgB !== undefined ? m.avgB : null,
+      winner: m.winner !== undefined ? m.winner : null
     })),
     news: state.news
   };
   db.ref('mundial2026').set(toSave);
 }
 
-// Load from Firebase and listen for real-time changes
+// Inicialización corregida para bases de datos vacías (Null)
 function initFirebase() {
   db.ref('mundial2026').on('value', (snapshot) => {
     const saved = snapshot.val();
-    if (saved) {
-      if (saved.matches && saved.matches.length === state.matches.length) {
-        saved.matches.forEach((pm, i) => {
-          if (!pm) return;
-          state.matches[i].ratioA = pm.ratioA !== undefined ? pm.ratioA : null;
-          state.matches[i].ratioB = pm.ratioB !== undefined ? pm.ratioB : null;
-          state.matches[i].avgA = pm.avgA !== undefined ? pm.avgA : null;
-          state.matches[i].avgB = pm.avgB !== undefined ? pm.avgB : null;
-          state.matches[i].winner = pm.winner !== undefined ? pm.winner : null;
-        });
-      }
-      state.news = saved.news ? Object.values(saved.news) : [];
+    
+    // Si la base de datos está vacía (Como muestra tu captura imagen_2.png)
+    if (!saved) {
+      console.log("Base de datos vacía detectada. Inicializando estructura estructural por defecto...");
+      saveState(); // Sube la estructura local a Firebase automáticamente
+      return; 
     }
+
+    if (saved.matches && saved.matches.length === state.matches.length) {
+      saved.matches.forEach((pm, i) => {
+        if (!pm) return;
+        state.matches[i].ratioA = pm.ratioA !== undefined ? pm.ratioA : null;
+        state.matches[i].ratioB = pm.ratioB !== undefined ? pm.ratioB : null;
+        state.matches[i].avgA = pm.avgA !== undefined ? pm.avgA : null;
+        state.matches[i].avgB = pm.avgB !== undefined ? pm.avgB : null;
+        state.matches[i].winner = pm.winner !== undefined ? pm.winner : null;
+      });
+    }
+    state.news = saved.news ? Object.values(saved.news) : [];
+    
     renderAll();
     updateAdminUI();
   });
@@ -956,7 +946,6 @@ function renderFixture() {
     const phaseMatches = state.matches.filter(m => m.phase === phase);
     if (!phaseMatches.length) continue;
 
-    // Group by round/jornada
     const rounds = {};
     for (const m of phaseMatches) {
       const key = m.round || phase;
@@ -978,18 +967,18 @@ function renderFixture() {
   }
   container.innerHTML = html;
 
-  // Update stats
   const total = state.matches.filter(m=>m.teamA>=0&&m.teamB>=0).length;
   const played = state.matches.filter(m=>m.winner!==null).length;
   document.getElementById('stat-total').textContent = total;
   document.getElementById('stat-played').textContent = played;
   document.getElementById('stat-pending').textContent = total - played;
 
-  // Dates
-  const firstMatch = state.matches[0];
-  const lastKO = state.matches[state.matches.length-1];
-  document.getElementById('startDateDisplay').textContent = fmtDate(new Date(firstMatch.dateStart));
-  document.getElementById('endDateDisplay').textContent = fmtDate(new Date(lastKO.dateEnd));
+  if(state.matches.length > 0) {
+    const firstMatch = state.matches[0];
+    const lastKO = state.matches[state.matches.length-1];
+    document.getElementById('startDateDisplay').textContent = fmtDate(new Date(firstMatch.dateStart));
+    document.getElementById('endDateDisplay').textContent = fmtDate(new Date(lastKO.dateEnd));
+  }
 }
 
 function renderMatchCard(m) {
@@ -1051,7 +1040,6 @@ function renderGroups() {
   let html = '';
 
   for (const grp of GROUPS) {
-    // Calculate standings within group
     const teamStandings = grp.teams.map(tid => {
       const t = state.teams[tid];
       const groupMatches = state.matches.filter(m =>
@@ -1059,7 +1047,7 @@ function renderGroups() {
       );
       const pts = groupMatches.reduce((s,m)=>{
         if(m.winner===tid) return s+3;
-        if(m.winner===-2) return s+1; // tie (same ratio)
+        if(m.winner===-2) return s+1;
         return s;
       },0);
       const gp = groupMatches.length;
@@ -1178,7 +1166,6 @@ function renderStandings() {
   body.innerHTML = html;
 }
 
-// Ojo con los quotes escapados dentro de las llamadas en línea en este return HTML:
 function renderTeams() {
   const container = document.getElementById('teams-container');
   let html = '';
@@ -1228,7 +1215,7 @@ function renderNews() {
 
 function catLabel(c){return{resultado:'Resultado',gol:'Logro destacado',general:'General',sancion:'Sanción'}[c]||c;}
 
-// ===== MODAL =====
+// ===== MODAL ACTIONS =====
 function openModal(matchId) {
   editingMatchId = matchId;
   const m = state.matches.find(x=>x.id===matchId);
@@ -1238,7 +1225,6 @@ function openModal(matchId) {
   document.getElementById('modal-title').textContent = `${tA.country} vs ${tB.country}`;
 
   let html = '';
-  // Team A players
   html += `<div class="player-input-group">
     <label>${tA.flag} ${tA.country} — Jugador 1<br><small style="color:var(--muted);font-weight:400">${tA.players[0]}</small></label>
     <input type="number" id="r0" min="0" max="100" step="0.1" value="${m.ratioA!==null&&m.ratioA[0]!==null?m.ratioA[0]:''}" placeholder="Ratio %" oninput="calcAvg()">
@@ -1304,14 +1290,14 @@ function saveMatchResult() {
 
   if(avgA>avgB) m.winner = m.teamA;
   else if(avgB>avgA) m.winner = m.teamB;
-  else m.winner = -2; // empate
+  else m.winner = -2;
 
   saveState();
   closeModal();
   renderAll();
 }
 
-// ===== NEWS =====
+// ===== NEWS ACTIONS =====
 function addNews() {
   const title = document.getElementById('news-title-input').value.trim();
   const body = document.getElementById('news-body-input').value.trim();
@@ -1322,7 +1308,6 @@ function addNews() {
   state.news.push({title, body, cat, date});
   document.getElementById('news-title-input').value='';
   document.getElementById('news-body-input').value='';
-  // Save news separately to Firebase
   db.ref('mundial2026/news').set(state.news);
   renderNews();
 }
@@ -1330,7 +1315,7 @@ function deleteNews(i) {
   if(confirm('¿Eliminar esta noticia?')){state.news.splice(i,1);db.ref('mundial2026/news').set(state.news);renderNews();}
 }
 
-// ===== TABS =====
+// ===== TABS CONTROLLER =====
 function showTab(name) {
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
@@ -1352,17 +1337,15 @@ function renderAll() {
   renderNews();
 }
 
-// Close modal on overlay click
 document.getElementById('modal-overlay').addEventListener('click', function(e){
   if(e.target===this) closeModal();
 });
 
-// Set today's date in news form
 document.getElementById('news-date-input').value = new Date().toISOString().split('T')[0];
 
 // INIT
 updateAdminUI();
-initFirebase(); // loads from Firebase and renders
+initFirebase(); 
 </script>
 </body>
 </html>
