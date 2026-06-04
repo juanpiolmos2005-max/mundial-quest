@@ -640,7 +640,7 @@
     height: 100%;
     background: linear-gradient(90deg, #0288D1, #4FC3F7);
     border-radius: 3px;
-    animation: loadBar 1.8s ease 1.4s both;
+    animation: loadBar 3s ease 1.4s both;
   }
   @keyframes loadBar {
     from { width: 0; }
@@ -908,13 +908,9 @@
   }
 
   // Minimum display time 3s, then hide
-  setTimeout(hideSplash, 3200);
+  setTimeout(hideSplash, 5000);
   // Also expose so Firebase callback can trigger it
-  window._signalFirebaseReady = function() {
-    window._firebaseDone = true;
-    // Only hide early if minimum 2.5s has passed
-    setTimeout(hideSplash, 200);
-  };
+  window._signalFirebaseReady = function() {}; // splash always waits full 5s
 })();
 
 // ===== DATA =====
@@ -1154,7 +1150,7 @@ function initFirebase() {
     populateTeamSelect();
     renderAll();
     updateAdminUI();
-    if (window._signalFirebaseReady) window._signalFirebaseReady();
+    window._firebaseDone = true; // Firebase ready, splash will hide at 5s
   });
 }
 
