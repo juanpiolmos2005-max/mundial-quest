@@ -963,7 +963,18 @@ const GROUPS = [
 const START = new Date(2026, 5, 9); // June 9 2026 — local time, no timezone shift
 
 function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate()+n); return r; }
-function fmtDate(d) { return d.toLocaleDateString('es-AR',{day:'2-digit',month:'short',year:'numeric'}); }
+function parseLocalDate(s) {
+  // Parse "YYYY-MM-DD" as local time, not UTC
+  if (!s) return new Date();
+  if (s instanceof Date) return s;
+  const parts = String(s).split('-');
+  if (parts.length === 3) return new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+  return new Date(s);
+}
+function fmtDate(d) {
+  const date = parseLocalDate(d);
+  return date.toLocaleDateString('es-AR',{day:'2-digit',month:'short',year:'numeric'});
+}
 function localISO(d) {
   // Returns YYYY-MM-DD in local time (avoids UTC timezone shift)
   const y = d.getFullYear();
@@ -974,7 +985,20 @@ function localISO(d) {
 function flagImg(code, size) {
   size = size || 32;
   if (!code || code.length > 6) return '🏳';
-  return '<img src="https://flagcdn.com/w' + size + '/' + code + '.png" width="' + size + '" style="border-radius:3px;vertical-align:middle" onerror="this.style.display=\'none\'">';
+    return `<img src="https://flagcdn.com/w${size}/${code}.png" width="${size}" style="border-radius:3px;vertical-align:middle" onerror="this.style.display='none'">`;
+}
+// Returns emoji flag for team cards
+const FLAG_EMOJI = {
+  'ar':'🇦🇷','br':'🇧🇷','fr':'🇫🇷','de':'🇩🇪','es':'🇪🇸','it':'🇮🇹','pt':'🇵🇹',
+  'nl':'🇳🇱','gb-eng':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','be':'🇧🇪','uy':'🇺🇾','co':'🇨🇴','mx':'🇲🇽',
+  'jp':'🇯🇵','kr':'🇰🇷','ma':'🇲🇦','sn':'🇸🇳','gh':'🇬🇭','au':'🇦🇺','ch':'🇨🇭',
+  'hr':'🇭🇷','dk':'🇩🇰','pl':'🇵🇱','se':'🇸🇪','rs':'🇷🇸','ec':'🇪🇨','pe':'🇵🇪',
+  'cl':'🇨🇱','py':'🇵🇾','bo':'🇧🇴','ve':'🇻🇪','cr':'🇨🇷','hn':'🇭🇳','pa':'🇵🇦',
+  'ng':'🇳🇬','eg':'🇪🇬','cm':'🇨🇲','ci':'🇨🇮','dz':'🇩🇿','tn':'🇹🇳',
+  'ir':'🇮🇷','sa':'🇸🇦','tr':'🇹🇷','ua':'🇺🇦','hu':'🇭🇺'
+};
+function flagEmoji(code) {
+  return FLAG_EMOJI[code] || '🏳';
 }
 
 function addWorkDays(d, n) {
@@ -1211,8 +1235,8 @@ function renderFixture() {
   if(state.matches.length > 0) {
     const firstMatch = state.matches[0];
     const lastKO = state.matches[state.matches.length-1];
-    document.getElementById('startDateDisplay').textContent = fmtDate(new Date(firstMatch.dateStart));
-    document.getElementById('endDateDisplay').textContent = fmtDate(new Date(lastKO.dateEnd));
+    document.getElementById('startDateDisplay').textContent = fmtDate(firstMatch.dateStart);
+    document.getElementById('endDateDisplay').textContent = fmtDate(lastKO.dateEnd);
   }
 }
 
@@ -1221,7 +1245,7 @@ function renderMatchCard(m) {
   const tB = m.teamB >= 0 ? state.teams[m.teamB] : null;
   const hasResult = m.winner !== null;
   const today = new Date();
-  const ds = new Date(m.dateStart), de = new Date(m.dateEnd);
+  const ds = parseLocalDate(m.dateStart), de = parseLocalDate(m.dateEnd);
   const isLive = !hasResult && today >= ds && today <= de && m.teamA >= 0;
   const cardClass = hasResult ? 'has-result' : (isLive ? 'live' : '');
 
@@ -1242,7 +1266,7 @@ function renderMatchCard(m) {
 
   return `<div class="match-card ${cardClass}">
     <div class="match-date">
-      <span>${fmtDate(new Date(m.dateStart))} – ${fmtDate(new Date(m.dateEnd))}</span>
+      <span>${fmtDate(m.dateStart)} – ${fmtDate(m.dateEnd)}</span>
       <span class="match-group">${m.group||m.phase}</span>
       ${isLive?'<span class="live-badge">● EN CURSO</span>':''}
     </div>
@@ -1409,7 +1433,7 @@ function renderTeams() {
   for (const t of state.teams) {
     html += `<div class="match-card" style="cursor:default">
       <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem">
-        <div>${flagImg(t.flag,48)}</div>
+        <div style="font-size:3rem;line-height:1">${flagEmoji(t.flag)}</div>
         <div>
           <div style="font-weight:700;font-size:1rem">${t.country}</div>
           <div style="font-size:0.65rem;color:var(--muted);letter-spacing:1px">SELECCIÓN</div>
