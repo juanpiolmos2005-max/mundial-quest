@@ -1203,15 +1203,7 @@ function initFirebase() {
         state.matches[i].winner = pm.winner !== undefined ? pm.winner : null;
       });
     }
-    // Load team players
-    if (saved.teams) {
-      Object.entries(saved.teams).forEach(([id, tData]) => {
-        const idx = parseInt(id);
-        if (state.teams[idx] && tData.players) {
-          state.teams[idx].players = tData.players;
-        }
-      });
-    }
+    // Team players always come from hardcoded TEAMS array — never overwritten by Firebase
     state.news = saved.news ? Object.values(saved.news) : [];
     
     populateTeamSelect();
