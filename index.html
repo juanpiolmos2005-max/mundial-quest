@@ -240,6 +240,41 @@
   }
   .edit-btn:hover { background: rgba(79,195,247,0.2); }
 
+  .btn-live {
+    background: rgba(255,68,68,0.15);
+    border: 1px solid rgba(255,68,68,0.4);
+    color: #ff6666;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+    transition: background 0.2s;
+    margin-left: 4px;
+  }
+  .btn-live:hover { background: rgba(255,68,68,0.3); }
+  .btn-finish {
+    background: rgba(127,255,0,0.12);
+    border: 1px solid rgba(127,255,0,0.4);
+    color: #a8e6ff;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+    transition: background 0.2s;
+    margin-left: 4px;
+  }
+  .btn-finish:hover { background: rgba(127,255,0,0.2); }
+  .match-status-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
   /* GROUPS */
   .groups-container {
     display: grid;
@@ -1058,6 +1093,7 @@ function addKOMatch(phase, dateStart, dateEnd, slot) {
     ratioA: null, ratioB: null,
     avgA: null, avgB: null,
     winner: null,
+    status: 'pending',
     dateStart: dateStart.toISOString(), dateEnd: dateEnd.toISOString(),
     slot
   });
@@ -1243,10 +1279,9 @@ function renderFixture() {
 function renderMatchCard(m) {
   const tA = m.teamA >= 0 ? state.teams[m.teamA] : null;
   const tB = m.teamB >= 0 ? state.teams[m.teamB] : null;
-  const hasResult = m.winner !== null;
-  const today = new Date();
-  const ds = parseLocalDate(m.dateStart), de = parseLocalDate(m.dateEnd);
-  const isLive = !hasResult && today >= ds && today <= de && m.teamA >= 0;
+  const status = m.status || (m.winner !== null ? 'finished' : 'pending');
+  const hasResult = status === 'finished';
+  const isLive = status === 'live';
   const cardClass = hasResult ? 'has-result' : (isLive ? 'live' : '');
 
   const p1A = tA && tA.players[0] ? tA.players[0].split(' ').slice(0,2).join(' ') : 'Por asignar';
@@ -1290,8 +1325,15 @@ function renderMatchCard(m) {
       </div>
     </div>
     <div class="match-footer">
-      <span>${hasResult?'✅ Finalizado':(isLive?'🔴 En curso':'⏳ Próximamente')}</span>
-      ${(canEdit && isAdmin)?`<button class="edit-btn" onclick="openModal(${m.id})">${hasResult?'✏ Editar':'📊 Ingresar Ratios'}</button>`:'<span></span>'}
+      <span>${hasResult?'✅ Finalizado':(isLive?'🔴 En curso':'⏳ Pendiente')}</span>
+      ${(canEdit && isAdmin) ? `
+        <div class="match-status-row">
+          <button class="edit-btn" onclick="openModal(${m.id})">📊 ${hasResult ? '✏ Editar' : 'Ingresar Ratios'}</button>
+          ${!isLive && !hasResult ? `<button class="btn-live" onclick="setMatchStatus(${m.id},'live')">🔴 Iniciar</button>` : ''}
+          ${isLive ? `<button class="btn-finish" onclick="finishMatch(${m.id})">✅ Finalizar</button>` : ''}
+          ${hasResult ? `<button class="btn-live" onclick="setMatchStatus(${m.id},'live')" style="opacity:0.6">↩ Reabrir</button>` : ''}
+        </div>
+      ` : '<span></span>'}
     </div>
   </div>`;
 }
@@ -1550,13 +1592,44 @@ function saveMatchResult() {
   m.ratioB = vB;
   m.avgA = avgA;
   m.avgB = avgB;
-
-  if(avgA>avgB) m.winner = m.teamA;
-  else if(avgB>avgA) m.winner = m.teamB;
-  else m.winner = -2;
+  // Don't set winner yet — admin must press "Finalizar" to close the match
+  // But if match was already finished, recalculate winner
+  if(m.status === 'finished') {
+    if(avgA>avgB) m.winner = m.teamA;
+    else if(avgB>avgA) m.winner = m.teamB;
+    else m.winner = -2;
+  }
 
   saveState();
   closeModal();
+  renderAll();
+}
+
+// ===== MATCH STATUS ACTIONS =====
+function setMatchStatus(matchId, status) {
+  const m = state.matches.find(x=>x.id===matchId);
+  if (!m) return;
+  m.status = status;
+  if (status === 'live') {
+    // Clear winner when reopening
+    m.winner = null;
+  }
+  saveState();
+  renderAll();
+}
+
+function finishMatch(matchId) {
+  const m = state.matches.find(x=>x.id===matchId);
+  if (!m) return;
+  if (m.avgA === null || m.avgB === null) {
+    alert('Ingresá los ratios antes de finalizar el partido.');
+    return;
+  }
+  m.status = 'finished';
+  if(m.avgA > m.avgB) m.winner = m.teamA;
+  else if(m.avgB > m.avgA) m.winner = m.teamB;
+  else m.winner = -2;
+  saveState();
   renderAll();
 }
 
